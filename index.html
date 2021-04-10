@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Bootstrap CSS -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    /> -->
+    <link rel="stylesheet" href="./bootstrap.min.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./grid.css" />
+
+    <style>
+      body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: rgb(226, 43, 104);
+      }
+
+      #title {
+        background-color: rgb(215, 249, 250);
+      }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+      // array to store movies data
+      let moviesArray = [];
+      loadValues();
+      let resultArea = document.getElementById("result");
+      let tr = document.createElement("div");
+      resultArea.appendChild(tr);
+      tr.innerHTML = '<div class="row mb-3"> <div class="col-sm-4 themed-grid-col">Movie</div> <div class="col-sm-4 themed-grid-col">Rating</div></div>'
+      function loadValues() {
+        var data = JSON.parse('{"Movies": [{"name":"iron man", "rating":"8.8"},{"name":"avengers", "rating":"7.8"},{"name":"captain america", "rating":"8.2"},{"name":"hulk", "rating":"8.0"},{"name":"spiderman", "rating":"8.3"},{"name":"dr. strange", "rating":"7.3"}]}')
+          data.Movies.forEach((movie) => {
+              moviesArray.push(movie);
+            });
+
+        console.log(data)
+        console.log(moviesArray)
+        // reading data from movies.json
+        /*
+        $.ajax({
+          url: "movie.json",
+          dataType: "json",
+          success: function (response) {
+            console.log(response)
+            response.Movies.forEach((movie) => {
+              moviesArray.push(movie);
+            });
+          },
+        });
+        */
+      }
+
+      function clearData() {
+        let clr_button = document.getElementById("clr");
+        let resultArea = document.getElementById("result");
+        let load_button = document.getElementById("btn");
+
+        clr_button.style.display = "none";
+        moviesArray = [];
+        resultArea.innerHTML = "";
+        load_button.disabled = false;
+
+        loadValues();
+      }
+
+      function loadDataToTable() {
+        if (moviesArray.length > 0) {
+          let button = document.getElementById("btn");
+          button.disabled = true;
+          document.getElementById("clr").style.display = "block";
+        }
+        let resultArea = document.getElementById("result");
+        
+        moviesArray.forEach((movie) => {
+          let tr = document.createElement("div");
+          //let td1 = document.createElement("div");
+          //let td2 = document.createElement("div");
+
+          resultArea.appendChild(tr);
+          tr.innerHTML = '<div class="row mb-3"> <div class="col-sm-4 themed-grid-col">'+movie.name+'</div> <div class="col-sm-4 themed-grid-col">'+movie.rating+'</div></div>'
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+
+    <center><h1 id="title">Movies And it's Ranking</h1></center>
+    <button onclick="loadDataToTable()" class="btn btn-success" id="btn">
+      Load Data
+    </button>
+    <div>
+      
+      <div class="row mb-3"> <div class="col-sm-4 themed-grid-col">Movie</div> <div class="col-sm-4 themed-grid-col">Rating</div></div>
+      <div id="result"></div>     
+    </div>
+
+
+
+      <button
+        onclick="clearData()"
+        class="btn btn-danger"
+        id="clr"
+        style="display: none"
+      >
+        Clear
+      </button>
+     
+    </div>
+  </body>
+</html>
